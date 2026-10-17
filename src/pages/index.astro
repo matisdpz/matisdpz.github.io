@@ -1,5 +1,10 @@
 ---
+import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
 import Base from "../layouts/Base.astro";
+import Stack from "../components/Stack.astro";
+
+const projects = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
 
 const links = [
   { label: "GitHub", href: "https://github.com/matisdpz" },
@@ -34,13 +39,20 @@ const skills = [
 
   <section>
     <h2>Projects</h2>
-    <article>
-      <h3><a href="https://github.com/matisdpz/ai-sre-assistant">AI SRE Assistant</a></h3>
-      <p>
-        Incident management platform for a simulated distributed system: deterministic
-        incident detection, a React dashboard and optional AI-assisted diagnosis.
-      </p>
-    </article>
+    {
+      projects.map((project) => (
+        <article class="project">
+          <a href={`/projects/${project.id}/`}>
+            <Image src={project.data.cover} alt={project.data.coverAlt} width={720} loading="eager" />
+          </a>
+          <h3>
+            <a href={`/projects/${project.id}/`}>{project.data.title}</a>
+          </h3>
+          <p>{project.data.summary}</p>
+          <Stack items={project.data.stack} />
+        </article>
+      ))
+    }
   </section>
 
   <section>
@@ -59,6 +71,14 @@ const skills = [
 </Base>
 
 <style>
+  .project h3 {
+    margin: 1rem 0 0.25rem;
+  }
+
+  .project p {
+    margin: 0;
+  }
+
   .links {
     display: flex;
     gap: 1.25rem;

@@ -72,3 +72,36 @@ a:hover {
 section + section {
   border-top: 1px solid var(--border);
 }
+
+img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+/* Long-form project pages rendered from Markdown. */
+.prose h2 {
+  text-transform: none;
+  letter-spacing: normal;
+  color: var(--text);
+  font-size: 1.35rem;
+  margin: 2.5rem 0 0.75rem;
+}
+
+.prose pre {
+  padding: 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.prose code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+}
+
+.prose li + li {
+  margin-top: 0.3rem;
+}

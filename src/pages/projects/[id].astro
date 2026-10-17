@@ -1,0 +1,40 @@
+---
+import { getCollection, render } from "astro:content";
+import { Image } from "astro:assets";
+import Base from "../../layouts/Base.astro";
+import Stack from "../../components/Stack.astro";
+
+// Generates one static page per project file at build time.
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects.map((project) => ({ params: { id: project.id }, props: { project } }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+
+<Base title={`${project.data.title} | Matis Di Piazza`} description={project.data.summary}>
+  <a href="/" class="back">← Matis Di Piazza</a>
+
+  <article class="prose">
+    <h1>{project.data.title}</h1>
+    <p class="muted">{project.data.summary}</p>
+    <p><a href={project.data.repo}>Source code on GitHub</a></p>
+    <Stack items={project.data.stack} />
+    <Image src={project.data.cover} alt={project.data.coverAlt} class="cover" loading="eager" />
+    <Content />
+  </article>
+</Base>
+
+<style>
+  .back {
+    display: inline-block;
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+  }
+
+  .cover {
+    margin-top: 1.5rem;
+  }
+</style>
