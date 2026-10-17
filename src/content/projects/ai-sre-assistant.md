@@ -4,7 +4,7 @@ summary: Incident management platform for a simulated distributed system, with d
 stack: [Python, FastAPI, PostgreSQL, SQLAlchemy, Alembic, React, TypeScript, Docker Compose, GitHub Actions, Gemini API]
 repo: https://github.com/matisdpz/ai-sre-assistant
 cover: ../../assets/projects/ai-sre-assistant/overview.png
-coverAlt: Dashboard overview with active incidents, MTTA and MTTR, and service health
+coverAlt: Dashboard overview, a cockpit-style grid of lamps with one lamp per detection rule and service
 order: 1
 ---
 
@@ -25,7 +25,8 @@ cascade). Nothing monitors real infrastructure.
 - Detects incidents with deterministic rules (error rate, p95 latency, CPU, service down),
   with warning and critical severities, escalation and recovery.
 - Tracks the incident lifecycle (`open → acknowledged → resolved`) and computes MTTA and MTTR.
-- Shows services, metric charts with thresholds, and the incident queue in a React dashboard.
+- Shows the state of every rule on every service as a cockpit-style panel of lamps, with
+  metric charts, thresholds and the incident queue, in a React dashboard.
 - On request, asks Google Gemini for hypotheses about an incident, displayed apart from the
   facts computed by the backend.
 
@@ -68,6 +69,13 @@ pages anyone as critical.
 a provider interface. The backend computes the observed facts itself; the model only
 suggests hypotheses, labelled as not confirmed. Quota, timeout and outage errors return a
 clear message, and the application works fully without an API key.
+
+**A dashboard designed after a cockpit.** Pilots read many systems at a glance through an
+annunciator panel: named lamps that stay dark while everything is normal. The overview
+applies that idea to detection rules x services, so it shows exactly what the engine watches
+and which rule fired where. Each color has one meaning, after the Airbus ECAM convention:
+magenta marks computed rather than measured values, which is why AI hypotheses are magenta
+and observed facts are not.
 
 **Hand-written migrations.** Alembic migrations are written by hand with explicit constraint
 names, and CI fails if the models and the schema drift apart.
