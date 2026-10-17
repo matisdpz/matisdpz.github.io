@@ -8,6 +8,7 @@ import photo from "../assets/photo.jpg";
 const projects = (await getCollection("projects")).sort((a, b) => a.data.order - b.data.order);
 
 const links = [
+  { label: "CV (PDF)", href: "/Matis_Di_Piazza_CV.pdf" },
   { label: "GitHub", href: "https://github.com/matisdpz" },
   { label: "LinkedIn", href: "https://www.linkedin.com/in/matis-di-piazza-19a375250" },
   { label: "Email", href: "mailto:dipiazzamatis@gmail.com" },
