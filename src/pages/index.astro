@@ -14,18 +14,38 @@ const links = [
   { label: "Email", href: "mailto:dipiazzamatis@gmail.com" },
 ];
 
+// Kept in sync with the CV (public/Matis_Di_Piazza_CV.pdf).
 const skills = [
-  { area: "Languages", items: "Python, Java, C/C++, SQL, TypeScript" },
-  { area: "Backend", items: "FastAPI, Pydantic, SQLAlchemy, REST API design, PostgreSQL" },
-  { area: "Infrastructure", items: "Docker, Docker Compose, nginx, GitHub Actions, Linux" },
-  { area: "Practices", items: "Automated testing, database migrations, structured logging, code review" },
-  { area: "Learning", items: "Cloud infrastructure, AI/ML" },
+  { area: "Programming", items: "Python, Java, C/C++, SQL, TypeScript, OCaml, R, PHP, VBA" },
+  {
+    area: "Backend & data",
+    items: "FastAPI, REST APIs, PostgreSQL, SQLAlchemy, relational databases, data analysis, statistics, Tableau, Power BI",
+  },
+  { area: "DevOps & tools", items: "Git, GitHub Actions (CI), Docker, Docker Compose, Linux, pytest" },
+  { area: "Systems & networking", items: "TCP/IP, Unix sockets, computer networks, embedded C (STM32)" },
+  {
+    area: "AI/ML",
+    items: "Reinforcement learning (MDPs, Q-learning, SARSA), state-space modeling, LLM API integration",
+  },
+];
+
+const education = [
+  {
+    school: "Polytech Grenoble, Université Grenoble Alpes",
+    degree: "Master's degree in Computer Science Engineering (Diplôme d'ingénieur)",
+    years: "2025-2028",
+  },
+  {
+    school: "Polytech Lyon, Université Claude Bernard Lyon 1",
+    degree: "Classes préparatoires: intensive 2-year course in maths, physics and computer science",
+    years: "2023-2025",
+  },
 ];
 ---
 
 <Base
   title="Matis Di Piazza"
-  description="Computer science engineering student interested in software engineering, cloud and machine learning."
+  description="Computer Science Engineering student at Polytech Grenoble, looking for an internship from April to August 2027."
 >
   <header class="intro">
     <Image
@@ -40,10 +60,11 @@ const skills = [
     <div>
       <h1>Matis Di Piazza</h1>
       <p class="muted">
-        Computer science engineering student, interested in software engineering, cloud
-        infrastructure and machine learning. I like building systems that are tested,
-        observable and easy to run.
+        Computer Science Engineering student (4th year) at Polytech Grenoble, interested in
+        software engineering, cloud infrastructure and machine learning. I like building
+        systems that are tested, observable and easy to run.
       </p>
+      <p class="availability">Looking for an internship: April to August 2027 (full-time)</p>
       <nav class="links">
         {links.map((link) => <a href={link.href}>{link.label}</a>)}
       </nav>
@@ -81,6 +102,21 @@ const skills = [
       }
     </dl>
   </section>
+
+  <section>
+    <h2>Education</h2>
+    {
+      education.map((item) => (
+        <div class="education">
+          <div class="education-head">
+            <strong>{item.school}</strong>
+            <span class="muted">{item.years}</span>
+          </div>
+          <div>{item.degree}</div>
+        </div>
+      ))
+    }
+  </section>
 </Base>
 
 <style>
@@ -115,6 +151,22 @@ const skills = [
     margin: 0;
   }
 
+  .availability {
+    font-weight: 600;
+    margin: 0 0 0.75rem;
+  }
+
+  .education + .education {
+    margin-top: 1rem;
+  }
+
+  .education-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
   .links {
     display: flex;
     gap: 1.25rem;
@@ -123,7 +175,7 @@ const skills = [
 
   .skills {
     display: grid;
-    grid-template-columns: 9rem 1fr;
+    grid-template-columns: 11rem 1fr;
     gap: 0.4rem 1rem;
     margin: 0;
   }
