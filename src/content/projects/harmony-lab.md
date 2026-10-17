@@ -1,6 +1,6 @@
 ---
 title: Harmony Lab
-summary: Interactive harmony workspace for musicians, with a deterministic music theory engine in Java, a voice-leading optimizer, explained chord suggestions and in-browser playback.
+summary: Interactive harmony workspace for musicians, with a deterministic music theory engine in Java, a voice-leading optimizer, explained chord suggestions, an improvisation mode and in-browser playback.
 stack: [Java 21, Spring Boot, PostgreSQL, Flyway, JPA, React, TypeScript, Tone.js, Testcontainers, Docker Compose, GitHub Actions]
 repo: https://github.com/matisdpz/harmony-lab
 cover: ../../assets/projects/harmony-lab/workspace.png
@@ -31,6 +31,9 @@ The application does not depend on any external service.
   progression to minimise movement.
 - Suggests alternative chords for four goals (smooth voice leading, stronger resolution,
   diatonic substitutes, more colour), each with a score breakdown and reasons.
+- Loops preset or custom progressions for improvisation. For the chord that is sounding,
+  the keyboard shows the chord tones, the safe scale notes and the tension notes (in red),
+  each with a reason. Notes can be played along with the mouse or the computer keyboard.
 - Saves projects in PostgreSQL.
 
 ## Architecture
@@ -75,18 +78,24 @@ the version that was loaded, so an outdated save returns a conflict instead of o
 newer changes. All input is validated against the music model before anything is written,
 in a single transaction.
 
+**Improvisation guide as explicit rules.** For each chord, the key's scale is adjusted to
+the chord's own notes (E7 in A minor turns G into G#). Notes a semitone above a chord tone,
+the altered tensions of dominant chords and the blue notes are shown as tensions. These are
+conventions from jazz and pop teaching, so each note comes with its reason rather than a
+verdict.
+
 **Audio as a singleton.** Tone.js is loaded on the first click (browsers block audio
 before a user gesture), a single engine exists per page, and progressions are scheduled on
 the transport so tempo changes apply during playback.
 
 ## Testing and CI
 
-- 181 backend unit tests for the domain (chords, intervals, keys, Roman numerals, voice
-  leading, suggestions), services and controllers.
+- 191 backend unit tests for the domain (chords, intervals, keys, Roman numerals, voice
+  leading, suggestions, improvisation guide), services and controllers.
 - 12 integration tests against a real PostgreSQL database using Testcontainers: ordered
   persistence, validation errors, conflicts, atomic updates and constraints.
-- 39 frontend tests with Vitest and React Testing Library, covering the editor, keyboard
-  highlights, reordering, form validation and API errors.
+- 42 frontend tests with Vitest and React Testing Library, covering the editor, keyboard
+  highlights, reordering, form validation, API errors and the improvisation page.
 - GitHub Actions runs lint, type checking, all tests and the Docker image builds on every push.
 
 ## Limitations
@@ -97,6 +106,8 @@ the transport so tempo changes apply during playback.
 - The sound is a synthesized electric-piano-like voice, not a sampled piano.
 
 ## Screenshots
+
+![Improvisation mode with chord tones, safe notes and tension notes on the keyboard](../../assets/projects/harmony-lab/improvisation.png)
 
 ![Alternative progressions compared with the current version](../../assets/projects/harmony-lab/workspace-alternatives.png)
 
