@@ -1,0 +1,92 @@
+---
+import Base from "../layouts/Base.astro";
+
+const links = [
+  { label: "GitHub", href: "https://github.com/matisdpz" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/matis-di-piazza-19a375250" },
+  { label: "Email", href: "mailto:dipiazzamatis@gmail.com" },
+];
+
+const skills = [
+  { area: "Languages", items: "Python, Java, C/C++, SQL, TypeScript" },
+  { area: "Backend", items: "FastAPI, Pydantic, SQLAlchemy, REST API design, PostgreSQL" },
+  { area: "Infrastructure", items: "Docker, Docker Compose, nginx, GitHub Actions, Linux" },
+  { area: "Practices", items: "Automated testing, database migrations, structured logging, code review" },
+  { area: "Learning", items: "Cloud infrastructure, AI/ML" },
+];
+---
+
+<Base
+  title="Matis Di Piazza"
+  description="Computer science engineering student interested in software engineering, cloud and machine learning."
+>
+  <header>
+    <h1>Matis Di Piazza</h1>
+    <p class="muted">
+      Computer science engineering student, interested in software engineering, cloud
+      infrastructure and machine learning. I like building systems that are tested,
+      observable and easy to run.
+    </p>
+    <nav class="links">
+      {links.map((link) => <a href={link.href}>{link.label}</a>)}
+    </nav>
+  </header>
+
+  <section>
+    <h2>Projects</h2>
+    <article>
+      <h3><a href="https://github.com/matisdpz/ai-sre-assistant">AI SRE Assistant</a></h3>
+      <p>
+        Incident management platform for a simulated distributed system: deterministic
+        incident detection, a React dashboard and optional AI-assisted diagnosis.
+      </p>
+    </article>
+  </section>
+
+  <section>
+    <h2>Skills</h2>
+    <dl class="skills">
+      {
+        skills.map((skill) => (
+          <>
+            <dt>{skill.area}</dt>
+            <dd>{skill.items}</dd>
+          </>
+        ))
+      }
+    </dl>
+  </section>
+</Base>
+
+<style>
+  .links {
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .skills {
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    gap: 0.4rem 1rem;
+    margin: 0;
+  }
+
+  .skills dt {
+    font-weight: 600;
+  }
+
+  .skills dd {
+    margin: 0;
+  }
+
+  @media (max-width: 30rem) {
+    .skills {
+      grid-template-columns: 1fr;
+    }
+
+    .skills dd {
+      margin-bottom: 0.6rem;
+    }
+  }
+</style>
