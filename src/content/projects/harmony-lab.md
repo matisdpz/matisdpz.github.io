@@ -4,7 +4,7 @@ summary: Interactive harmony workspace for musicians, with a deterministic music
 stack: [Java 21, Spring Boot, PostgreSQL, Flyway, JPA, React, TypeScript, Tone.js, Testcontainers, Docker Compose, GitHub Actions]
 repo: https://github.com/matisdpz/harmony-lab
 cover: ../../assets/projects/harmony-lab/workspace.png
-coverAlt: Harmony workspace with a chord progression, piano keyboard, chord inspector and Roman numeral analysis
+coverAlt: Harmony workspace with the progression drawn as a lead-sheet line, Roman numerals under each chord, a piano keyboard and the chord inspector
 order: 2
 ---
 
@@ -35,6 +35,8 @@ The application does not depend on any external service.
   the keyboard shows the chord tones, the safe scale notes and the tension notes (in red),
   each with a reason. Notes can be played along with the mouse or the computer keyboard.
 - Saves projects in PostgreSQL.
+- Draws the progression like a line of a lead sheet: one measure per chord, sized by its
+  number of beats, with a playhead during playback. A day and a night theme are available.
 
 ## Architecture
 
@@ -84,6 +86,16 @@ the altered tensions of dominant chords and the blue notes are shown as tensions
 conventions from jazz and pop teaching, so each note comes with its reason rather than a
 verdict.
 
+**An interface that reads like a score.** Instead of a generic dashboard of cards, the
+interface reuses the conventions musicians already read: measures, barlines, repeat signs
+when looping, and Roman numerals under the chords as in a harmony textbook. Each colour has
+one meaning: blue for the root and the selection, pale blue for chord tones, red for
+tensions. Every role on the keyboard also has a shape, so colour is never the only cue, and
+the text meets WCAG AA contrast in both themes. Accidentals are displayed as real ♭ and ♯
+while the API keeps plain `b` and `#`. The night theme reuses the same colour tokens through
+CSS `light-dark()`, and the keyboard stays ivory and black in both themes because it stands
+for a real instrument.
+
 **Audio as a singleton.** Tone.js is loaded on the first click (browsers block audio
 before a user gesture), a single engine exists per page, and progressions are scheduled on
 the transport so tempo changes apply during playback.
@@ -94,8 +106,9 @@ the transport so tempo changes apply during playback.
   leading, suggestions, improvisation guide), services and controllers.
 - 12 integration tests against a real PostgreSQL database using Testcontainers: ordered
   persistence, validation errors, conflicts, atomic updates and constraints.
-- 42 frontend tests with Vitest and React Testing Library, covering the editor, keyboard
-  highlights, reordering, form validation, API errors and the improvisation page.
+- 56 frontend tests with Vitest and React Testing Library, covering the editor, keyboard
+  highlights, reordering, form validation, API errors, the improvisation page, the display of
+  accidentals and the theme setting.
 - GitHub Actions runs lint, type checking, all tests and the Docker image builds on every push.
 
 ## Limitations
@@ -106,6 +119,8 @@ the transport so tempo changes apply during playback.
 - The sound is a synthesized electric-piano-like voice, not a sampled piano.
 
 ## Screenshots
+
+![Night theme during looped playback, with repeat signs and the playhead crossing the current measure](../../assets/projects/harmony-lab/workspace-night.png)
 
 ![Improvisation mode with chord tones, safe notes and tension notes on the keyboard](../../assets/projects/harmony-lab/improvisation.png)
 
